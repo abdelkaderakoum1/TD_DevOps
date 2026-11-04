@@ -7,37 +7,37 @@ import jakarta.jws.WebService;
 @WebService(serviceName="Calculator")
 public class Calculator{
 
-    private static class Add{
-        private int intA, intB;
+    public static class Add{
+        int intA, intB;
        
     }
 
-    private static class AddResponse{
-        private int AddResult;
+    public static class AddResponse{
+        int AddResult;
     }
 
-    private static class Substract{
-        private int intA, intB;
+    public static class Substract{
+        int intA, intB;
     }
 
-    private static class SubstractResponse{
-        private int SubstractResult;    
+    public static class SubstractResponse{
+        int SubstractResult;    
     }
 
-    private static class Multiply{
-        private int intA, intB;
+    public static class Multiply{
+        int intA, intB;
     }
 
-    private static class MultiplyResponse{
-    	private int MultiplyResult;    
+    public static class MultiplyResponse{
+    	int MultiplyResult;    
     }
     
-    private static class Divide{
-        private int intA, intB;
+    public static class Divide{
+        int intA, intB;
     }
 
-    private static class DivideResponse{
-    	private int DivideResult;    
+    public static class DivideResponse{
+    	int DivideResult;    
     }
 
     //Method implementations
@@ -51,21 +51,21 @@ public class Calculator{
     @WebMethod(operationName="Substract")    
     public SubstractResponse Substract(@WebParam(name="parameters") Substract parameters){
         SubstractResponse result = new SubstractResponse();
-        result.SubstractResult = parameters.intA + parameters.intB;
+        result.SubstractResult = parameters.intA - parameters.intB;
     	return result;
     }
     
     @WebMethod(operationName="Multiply")
     public MultiplyResponse Multiply(@WebParam(name="parameters") Multiply parameters){
     	MultiplyResponse result = new MultiplyResponse();
-        result.MultiplyResult = parameters.intA + parameters.intB;
+        result.MultiplyResult = parameters.intA * parameters.intB;
     	return result;
     } 
     
     @WebMethod(operationName="Divide")    
     public DivideResponse Divide(@WebParam(name="parameters") Divide parameters){
     	DivideResponse result = new DivideResponse();
-        result.DivideResult = parameters.intA + parameters.intB;
+        result.DivideResult = parameters.intA / parameters.intB;
     	return result;
     } 
 

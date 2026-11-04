@@ -7,7 +7,7 @@ public class CalculatorApplication{
 	public static short port = 8089;
 	
 	public void demarrerService() {
-		String url = "https://"+host+":"+port+"/";
+		String url = "http://"+host+":"+port+"/";
 		Endpoint.publish(url, new Calculator());
 	}
 	

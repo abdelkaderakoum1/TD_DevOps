@@ -4,7 +4,6 @@ fr\insa\ws\soap\Calculator$Divide.class
 fr\insa\ws\soap\Calculator$DivideResponse.class
 fr\insa\ws\soap\Calculator$Multiply.class
 fr\insa\ws\soap\Calculator$Add.class
-fr\insa\ws\soap\Calculator$1.class
 fr\insa\ws\soap\Calculator.class
 fr\insa\ws\soap\Calculator$SubstractResponse.class
 fr\insa\ws\soap\Calculator$Substract.class
