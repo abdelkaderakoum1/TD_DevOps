@@ -1,22 +1,85 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.insa.ws.soap</groupId>
   <artifactId>Calculator</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <description>Calculator webservice for SOA lessons</description>
-  
+
   <properties>
-  	<java.version>21</java.version>
+  	<!-- Compile for Java 21: same version as the Docker image (eclipse-temurin:21-jre) and the CI pipeline -->
+  	<maven.compiler.release>21</maven.compiler.release>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+
   <dependencies>
-  	<!--https:mvnrepository.com.artifact/com.sum.xml.ws/jaxws-rt -->
+  	<!-- https://mvnrepository.com/artifact/com.sun.xml.ws/jaxws-rt -->
   	<dependency>
   		<groupId>com.sun.xml.ws</groupId>
   		<artifactId>jaxws-rt</artifactId>
   		<version>4.0.0</version>
   	</dependency>
+
+  	<!-- Unit tests (run by "mvn verify" in the CI pipeline) -->
+  	<dependency>
+  		<groupId>org.junit.jupiter</groupId>
+  		<artifactId>junit-jupiter</artifactId>
+  		<version>5.11.4</version>
+  		<scope>test</scope>
+  	</dependency>
   </dependencies>
+
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-compiler-plugin</artifactId>
+  			<version>3.13.0</version>
+  		</plugin>
+
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-surefire-plugin</artifactId>
+  			<version>3.5.2</version>
+  		</plugin>
+
+  		<!-- Builds an executable "fat" jar (target/Calculator-0.0.1-SNAPSHOT.jar) containing the JAX-WS runtime -->
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-shade-plugin</artifactId>
+  			<version>3.6.2</version>
+  			<executions>
+  				<execution>
+  					<phase>package</phase>
+  					<goals>
+  						<goal>shade</goal>
+  					</goals>
+  					<configuration>
+  						<createDependencyReducedPom>false</createDependencyReducedPom>
+  						<transformers>
+  							<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+  								<mainClass>fr.insa.ws.soap.CalculatorApplication</mainClass>
+  							</transformer>
+  							<!-- JAX-WS finds its implementation through META-INF/services files: merge them -->
+  							<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+  						</transformers>
+  						<filters>
+  							<filter>
+  								<artifact>*:*</artifact>
+  								<excludes>
+  									<exclude>META-INF/*.SF</exclude>
+  									<exclude>META-INF/*.DSA</exclude>
+  									<exclude>META-INF/*.RSA</exclude>
+  									<exclude>module-info.class</exclude>
+  									<exclude>META-INF/versions/*/module-info.class</exclude>
+  								</excludes>
+  							</filter>
+  						</filters>
+  					</configuration>
+  				</execution>
+  			</executions>
+  		</plugin>
+  	</plugins>
+  </build>
 </project>

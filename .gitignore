@@ -1,0 +1,2 @@
+# Maven build output (the CI pipeline rebuilds the jar itself)
+target/

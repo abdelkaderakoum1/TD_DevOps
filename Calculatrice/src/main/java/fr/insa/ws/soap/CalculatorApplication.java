@@ -3,11 +3,13 @@ package fr.insa.ws.soap;
 import jakarta.xml.ws.Endpoint;
 
 public class CalculatorApplication{
-	public static String host = "localhost";
+	// 0.0.0.0 = listen on all network interfaces, so the service is reachable from outside a Docker container
+	public static String host = "0.0.0.0";
 	public static short port = 8089;
-	
+
 	public void demarrerService() {
-		String url = "https://"+host+":"+port+"/";
+		// Endpoint.publish only supports http (https throws IllegalArgumentException)
+		String url = "http://"+host+":"+port+"/";
 		Endpoint.publish(url, new Calculator());
 	}
 	
